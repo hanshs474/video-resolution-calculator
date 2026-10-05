@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Aspect Ratio and Resolution Calculator: 480p, 720p, 1080p, 4K Pixel Sizes</title><meta name="description" content="Pixel width and height for 16:9, 9:16, 1:1, 4:3, 21:9 video at 480p, 720p, 1080p and 4K, plus a custom calculator for any ratio.">
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0d0f14;color:#e8eaf0}
+main{max-width:860px;margin:0 auto;padding:32px 20px 64px}h1{font-size:30px;line-height:1.2;margin:0 0 8px}h2{font-size:20px;margin:36px 0 10px}
+p.lead{color:#aab0bf;margin:0 0 24px}.card{background:#161a23;border:1px solid #262c3a;border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-size:13px;color:#aab0bf;margin:12px 0 6px}input,select,textarea{width:100%;background:#0d0f14;color:#e8eaf0;border:1px solid #303748;border-radius:10px;padding:10px 12px;font:inherit}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#8a93a8 50%),linear-gradient(135deg,#8a93a8 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:34px}
+textarea{min-height:120px;resize:vertical}.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+button{background:#7c5cff;color:#fff;border:0;border-radius:10px;padding:11px 18px;font:600 15px system-ui;cursor:pointer;margin-top:14px}button.ghost{background:#232838}
+.out{white-space:pre-wrap;background:#0d0f14;border:1px solid #303748;border-radius:10px;padding:14px;margin-top:14px;min-height:60px;font:14px/1.5 ui-monospace,Menlo,monospace}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px;border-bottom:1px solid #262c3a}th{color:#aab0bf;font-weight:600}
+a{color:#a996ff}.cta{display:inline-block;margin-top:8px;background:#7c5cff;color:#fff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:600}
+.muted{color:#8a93a8;font-size:14px}canvas,img,video{max-width:100%;border-radius:10px}footer{margin-top:48px;color:#8a93a8;font-size:13px}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#303748;border-radius:10px}::-webkit-scrollbar-track{background:#0d0f14}
+</style></head><body><main>
+<h1>Video aspect ratio and resolution calculator</h1>
+<p class="lead">"720p" names the short side. The long side depends on the aspect ratio, which is why a vertical 720p clip is 720 wide, not 1280. Pick a ratio and a tier to get the exact pixels, or enter your own.</p>
+<div class="card"><div class="row"><div><label>Aspect ratio</label><select id="r"><option>16:9</option><option>9:16</option><option>1:1</option><option>4:3</option><option>3:4</option><option>21:9</option><option>4:5</option></select></div>
+<div><label>Or custom ratio (w:h)</label><input id="cr" placeholder="e.g. 2.39:1"></div></div>
+<table id="t" style="margin-top:16px"></table></div>
+<h2>Which to pick</h2>
+<p>16:9 for YouTube and landscape players, 9:16 for TikTok, Reels and Shorts, 1:1 or 4:5 for feed posts. Generate at the ratio you will publish: cropping a 16:9 clip to 9:16 afterwards keeps only about a third of the frame. Many video models such as <a href="https://saymaker.ai/video/wan-3-0?utm_source=github.io&utm_medium=tool">Wan 3.0</a> let you pick 480p, 720p or 1080p; draft at the low tier, then re-run the shot you keep at the high one.</p>
+<div class="card"><strong>Generate at the size you just picked: Wan 3.0 on SayMaker.</strong><br><a class="cta" href="https://saymaker.ai/video/wan-3-0?utm_source=github.io&utm_medium=tool">Open it on SayMaker</a></div>
+<footer>A free tool from <a href="https://saymaker.ai/?utm_source=github.io&utm_medium=tool">SayMaker</a>, the AI video generator agent. Everything on this page runs in your browser; nothing is uploaded.</footer>
+</main><script>const tiers=[['480p',480],['720p',720],['1080p',1080],['1440p',1440],['4K',2160]];const even=n=>Math.round(n/2)*2;
+function parse(s){const m=String(s).split(':').map(Number);return m.length==2&&m[0]>0&&m[1]>0?m:null}
+function draw(){const r=parse(document.getElementById('cr').value)||parse(document.getElementById('r').value);const [w,h]=r;let rows='<tr><th>Tier</th><th>Width</th><th>Height</th><th>Megapixels</th></tr>';
+for(const [n,s] of tiers){let W,H;if(w>=h){H=s;W=even(s*w/h)}else{W=s;H=even(s*h/w)}rows+=`<tr><td>${n}</td><td>${W}</td><td>${H}</td><td>${(W*H/1e6).toFixed(2)}</td></tr>`}document.getElementById('t').innerHTML=rows}
+document.getElementById('r').oninput=draw;document.getElementById('cr').oninput=draw;draw();</script></body></html>
